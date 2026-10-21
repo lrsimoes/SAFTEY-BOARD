@@ -1,0 +1,79 @@
+[
+ {
+  "id": "ph",
+  "level": "critical",
+  "item": "Plant Health inductions have expired for everyone",
+  "detail": "Every Plant Health card (issued 23/06/2025) expired on 01/06/2026, or 11/06/2026 for Walter Mahlaela and Ricardo Simoes. Nobody is currently inducted for Plant Health.",
+  "source": "AECI - PLANT HEALTH NULANDIS / JUNE 2025 / Induction cards set 1-4"
+ },
+ {
+  "id": "jan",
+  "level": "warning",
+  "item": "Most medicals and inductions expire together in January 2027",
+  "detail": "Medicals 13/01/2027, Nitrates 15/01/2027 and ISAP 31/01/2027 for about 26 people. Book renewals in early January.",
+  "source": "2026 COF list, Nitrates Inductions 2026, IS Induction 2026"
+ },
+ {
+  "id": "klipdue",
+  "level": "warning",
+  "item": "Ingrain Kliprivier inductions expire early December",
+  "detail": "Simphiwe Voyiya and Vuwani Makhado on 03/12/2026, Phineas Morwatsehla on 04/12/2026.",
+  "source": "INDUCTIONS / OTHER INDUCTIONS"
+ },
+ {
+  "id": "dl",
+  "level": "warning",
+  "item": "Phillip Dlamini: driver's licence expires 03/11/2026",
+  "detail": "Renew before driving on site.",
+  "source": "Copy of Employee Drivers Licences - 2026"
+ },
+ {
+  "id": "acceptor",
+  "level": "warning",
+  "item": "Nitrates clearance acceptor appointments expired",
+  "detail": "Ricardo Simoes on 16/10/2026 and Vuwani Makhado on 17/04/2026 (per the Q2 2026 training matrix).",
+  "source": "LR Simoes Employee list 2026 Q2"
+ },
+ {
+  "id": "klip",
+  "level": "warning",
+  "item": "Two Kliprivier cards have the wrong expiry year",
+  "detail": "Benson Sikuba and Sidima Ntunja: inducted 08/12/2025 but expiry also written as 08/12/2025. Shown as expired until corrected.",
+  "source": "INDUCTIONS / OTHER INDUCTIONS"
+ },
+ {
+  "id": "ingrain",
+  "level": "warning",
+  "item": "No Ingrain Meyerton or Ingrain Germiston inductions on file",
+  "detail": "Nothing found for either site. The KlipRivier - Exp 13 Jan 2027 folder is also empty.",
+  "source": "Whole Health & Safety folder"
+ },
+ {
+  "id": "ncp",
+  "level": "info",
+  "item": "NCP cards show no expiry date",
+  "detail": "8 NCP cards on file. Benson, Phindani, Walter Mahlaela and Vuwani have NCP induction forms but no card scanned.",
+  "source": "OTHER INDUCTIONS / NCP INDUCTION CARDS - 2026; 4. SAFETY FILE - NCP CHLORCHEM / NCP INDUCTIONS"
+ },
+ {
+  "id": "org",
+  "level": "info",
+  "item": "Org chart (Sept 2026) is out of step with the safety records",
+  "detail": "It leaves out Ricardo Simoes, Mvuzomuhle Khoza, Nicholas Dlamini, Vincent Msomi, Walter Sisulu, Ntshengedzeni Makhado and the new starters, and still lists Nelson Ndlovu, Adrian Kloppers, Saji Sasidharan, Elliot Mahlomotja and William Mokgehle, who have left.",
+  "source": "PERSONNEL RECORDS / ORGANISATION CHART sept 2026.xlsx"
+ },
+ {
+  "id": "gate",
+  "level": "info",
+  "item": "Gate inductions for names not on any staff list",
+  "detail": "DM Khumalo (exp 13/10/2027) and Titswalo Chabala (18/06/2026). Confirm who they are.",
+  "source": "INDUCTIONS / AECI GATE INDUCTION"
+ },
+ {
+  "id": "ratau",
+  "level": "info",
+  "item": "Charles Ratau medical file name has the wrong year",
+  "detail": "File is named EXP 05.10.2026, but the certificate was issued 05/10/2026 and is valid 12 months.",
+  "source": "MEDICAL CLEARANCES / Medicals 2026"
+ }
+]
