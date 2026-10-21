@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#14202b">
+<title>LRS Safety Board</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2314202b'/%3E%3Cpath d='M32 10 52 18v14c0 12-8.5 20-20 24-11.5-4-20-12-20-24V18z' fill='%23f2b705'/%3E%3C/svg%3E">
+<style>
+:root{--bg:#f4f5f2;--panel:#fff;--fg:#14202b;--muted:#5d6872;--line:#dde1dc;--ok:#1f7a3f;--warn:#a25b00;--bad:#c0262d;--okbg:#e6f3ea;--warnbg:#fdf0dc;--badbg:#fbe5e5;--accent:#f2b705}
+@media (prefers-color-scheme:dark){:root{--bg:#0f171e;--panel:#17222c;--fg:#eef1ee;--muted:#9aa6af;--line:#2a3742;--ok:#5cc983;--warn:#f0a83c;--bad:#ff6b6b;--okbg:#163323;--warnbg:#3a2a12;--badbg:#3d1a1b;color-scheme:dark}}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font-family:"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:15px}
+.wrap{max-width:1500px;margin:0 auto;padding:16px max(16px,env(safe-area-inset-right)) 32px max(16px,env(safe-area-inset-left));display:grid;gap:18px}
+header{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:flex-end;justify-content:space-between;border-bottom:4px solid var(--accent);padding-bottom:12px}
+h1{margin:0;font-size:1.7rem;letter-spacing:-.01em}
+.sub{color:var(--muted);font-size:.85rem;margin:2px 0 0}
+.clock{font-variant-numeric:tabular-nums;font-size:1rem;color:var(--muted)}
+.take{margin:0;font-size:1rem;max-width:80ch}
+.tiles{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.tile .k{font-size:.8rem;color:var(--muted)}
+.tile .v{font-size:2.1rem;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.15}
+.tile.bad .v{color:var(--bad)}.tile.warn .v{color:var(--warn)}.tile.good .v{color:var(--ok)}
+.grid2{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(100%,430px),1fr));align-items:start}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;min-width:0;display:grid;gap:10px}
+h2{margin:0;font-size:1.1rem}
+.note{margin:0;font-size:.8rem;color:var(--muted)}
+.scroll{overflow:auto;max-height:72vh;-webkit-overflow-scrolling:touch}
+table{border-collapse:separate;border-spacing:0;width:100%;font-size:.85rem;font-variant-numeric:tabular-nums}
+th{position:sticky;top:0;background:var(--panel);text-align:left;color:var(--muted);font-weight:600;padding:6px 8px;border-bottom:2px solid var(--line);white-space:nowrap;z-index:1}
+td{padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap;vertical-align:top}
+td:first-child,th:first-child{position:sticky;left:0;background:var(--panel)}
+th:first-child{z-index:2}
+td.name{font-weight:600}
+td.muted{color:var(--muted)}
+td.notec{white-space:normal;min-width:15rem;color:var(--muted);font-size:.8rem}
+td.empty::after{content:"—";color:var(--muted);opacity:.5}
+.pill{display:inline-block;padding:1px 7px;border-radius:999px;font-weight:600}
+.ok{color:var(--ok)}.due .pill,.pill.due{background:var(--warnbg);color:var(--warn)}.pill.exp{background:var(--badbg);color:var(--bad)}.pill.ok{background:var(--okbg);color:var(--ok)}
+.num{text-align:right}
+.alerts{list-style:none;margin:0;padding:0;display:grid}
+.alerts li{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;padding:9px 0;border-bottom:1px solid var(--line)}
+.alerts li:last-child{border-bottom:0}
+.sev{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:3px 7px;border-radius:5px;align-self:start;text-align:center;min-width:4.6rem}
+.sev.critical{background:var(--badbg);color:var(--bad)}.sev.warning{background:var(--warnbg);color:var(--warn)}.sev.info{background:var(--line);color:var(--fg)}
+.it{font-weight:600}.dt{grid-column:2;font-size:.85rem}.src{grid-column:2;font-size:.75rem;color:var(--muted)}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.controls input{font:inherit;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);flex:1 1 12rem;max-width:20rem;min-width:0}
+.chip{font:inherit;font-size:.8rem;padding:6px 11px;border:1px solid var(--line);border-radius:999px;background:var(--bg);color:var(--fg);cursor:pointer}
+.chip[aria-pressed=true]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:.8rem;align-items:center}
+footer{font-size:.75rem;color:var(--muted)}
+/* TV mode */
+body.tv{font-size:19px}
+body.tv .wrap{max-width:none}
+body.tv .controls,body.tv .src,body.tv td.notec,body.tv th.notec{display:none}
+body.tv table{font-size:1rem}
+body.tv .scroll{max-height:none;overflow:visible}
+body.tv{scrollbar-width:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div><h1>LR Simoes Steelwork · Safety Board</h1>
+  <p class="sub">Medicals and site inductions · last updated <b id="scanned"></b> from the Health &amp; Safety folder · next update <span id="next"></span></p></div>
+  <div class="clock" id="clock"></div>
+</header>
+<p class="take" id="take"></p>
+<section class="tiles" id="tiles"></section>
+<div class="grid2">
+  <section class="card"><h2>Needs attention</h2><ul class="alerts" id="alerts"></ul></section>
+  <section class="card"><h2>By site</h2><p class="note">Counted from today. “Due” = expiring within 60 days.</p>
+    <div class="scroll"><table><thead><tr><th>Site</th><th class="num">Valid</th><th class="num">Due</th><th class="num">Expired</th><th class="num">None on file</th></tr></thead><tbody id="sites"></tbody></table></div></section>
+</div>
+<section class="card people"><h2>Everyone</h2>
+  <div class="controls">
+    <input id="q" type="search" placeholder="Search name or trade" aria-label="Search">
+    <button class="chip" data-f="all" aria-pressed="true">Everyone</button>
+    <button class="chip" data-f="attn" aria-pressed="false">Needs attention</button>
+    <button class="chip" data-f="new" aria-pressed="false">New starters</button>
+    <button class="chip" id="tvbtn" aria-pressed="false">TV mode</button>
+  </div>
+  <div class="legend"><span class="pill ok">Valid</span><span class="pill due">Due ≤ 60 days</span><span class="pill exp">Expired</span><span class="note">— nothing on file</span></div>
+  <div class="scroll" id="pscroll"><table><thead><tr><th>Name</th><th>Trade</th><th>Medical</th><th>Nitrates</th><th>ISAP</th><th>NCP</th><th>Plant Health</th><th>Ingrain Kliprivier</th><th>Ingrain Meyerton</th><th>Ingrain Germiston</th><th>Driver's licence</th><th class="notec">Notes</th></tr></thead><tbody id="people"></tbody></table></div>
+</section>
+<footer>Dates as written on the certificates and induction cards. ID numbers and medical details are deliberately left off. Updated automatically on the 1st of each month.</footer>
+</div>
+<script>
+const DATA = {"staff": [{"name": "Lionel Simoes", "trade": "Management", "group": "Current", "note": "", "medical": "13/01/2027", "nitrates": "15/01/2027", "isap": "31/01/2027", "ncp": null, "plant_health": null, "kliprivier": null, "meyerton": null, "germiston": null, "licence": "08/03/2027"}, {"name": "Juanita Simoes", "trade": "Management", "group": "Check status", "note": "On Sept 2026 org chart; no medical or inductions on file (office-based?)", "medical": null, "nitrates": null, "isap": null, "ncp": null, "plant_health": null, "kliprivier": null, "meyerton": null, "germiston": null, "licence": null}, {"name": "Paula Coito van Heerden", "trade": "Office / SHE", "group": "Current", "note": "No ISAP card on file", "medical": "13/01/2027", "nitrates": "15/01/2027", "isap": null, "ncp": null, "plant_health": null, "kliprivier": null, "meyerton": null, "germiston": null, "licence": "06/12/2030"}, {"name": "Hein Eichstadt", "trade": "", "group": "Current", "note": "", "medical": "13/01/2027", "nitrates": "15/01/2027", "isap": "31/01/2027", "ncp": null, "plant_health": "01/06/2026", "kliprivier": null, "meyerton": null, "germiston": null, "licence": "12/05/2028"}, {"name": "Samora Nubetey", "trade": "QC", "group": "Current", "note": "", "medical": "13/01/2027", "nitrates": "15/01/2027", "isap": "31/01/2027", "ncp": null, "plant_health": "01/06/2026", "kliprivier": null, "meyerton": null, "germiston": null, "licence": "10/11/2028"}, {"name": "Phineas Morwatsehla", "trade": "Plant supervisor", "group": "Current", "note": "", "medical": "13/01/2027", "nitrates": "15/01/2027", "isap": "31/01/2027", "ncp": null, "plant_health": "01/06/2026", "kliprivier": "04/12/2026", "meyerton": null, "germiston": null, "licence": "31/03/2027"}, {"name": "Nas Ditire", "trade": "Plant supervisor", "group": "Current", "note": "", "medical": "13/01/2027", "nitrates": "15/01/2027", "isap": "31/01/2027", "ncp": "Card on file", "plant_health": null, "kliprivier": "02/03/2027", "meyerton": null, "germiston": null, "licence": "12/08/2029"}, {"name": "Armando Chichane", "trade": "Boilermaker", "group": "Current", "note": "", "medical": "13/01/2027", "nitrates": "15/01/2027", "isap": "31/01/2027", "ncp": null, "plant_health": null, "kliprivier": null, "meyerton": null, "germiston": null, "licence": "28/02/2028"}, {"name": "Sidima Ntunja", "trade": "Pipe fitter", "group": "Current", "note": "Kliprivier card shows expiry 08/12/2025, same day as induction; probably meant 08/12/2026", "medical": "13/01/2027", "nitrates": "15/01/2027", "isap": "31/01/2027", "ncp": null, "plant_health": "01/06/2026", "kliprivier": "08/12/2025", "meyerton": null, "germiston": null, "licence": "09/11/2028"}, {"name": "John Sisulu", "trade": "Pipe fitter", "group": "Current", "note": "", "medical": "13/01/2027", "nitrates": "15/01/2027", "isap": "31/01/2027", "ncp": "Card on file", "plant_health": "01/06/2026", "kliprivier": null, "meyerton": null, "germiston": null, "licence": "09/12/2029"}, {"name": "Phillip Dlamini", "trade": "Pipe fitter", "group": "Current", "note": "", "medical": "13/01/2027", "nitrates": "15/01/2027", "isap": "31/01/2027", "ncp": null, "plant_health": "01/06/2026", "kliprivier": null, "meyerton": null, "germiston": null, "licence": "03/11/2026"}, {"name": "Benson Sikuba", "trade": "Pipe fitter", "group": "Current", "note": "Kliprivier card shows expiry 08/12/2025, same day as induction; probably meant 08/12/2026. NCP induction forms on file but no card scanned", "medical": "13/01/2027", "nitrates": "15/01/2027", "isap": "31/01/2027", "ncp": "Forms only", "plant_health": "01/06/2026", "kliprivier": "08/12/2025", "meyerton": null, "germiston": null, "licence": null}, {"name": "Vuwani Makhado", "trade": "Welder", "group": "Current", "note": "NCP induction forms on file but no card scanned", "medical": "13/01/2027", "nitrates": "15/01/2027", "isap": "31/01/2027", "ncp": "Forms only", "plant_health": "01/06/2026", "kliprivier": "03/12/2026", "meyerton": null, "germiston": null, "licence": null}, {"name": "Walter Mahlaela", "trade": "Welder", "group": "Current", "note": "NCP induction forms on file but no card scanned", "medical": "13/01/2027", "nitrates": "15/01/2027", "isap": "31/01/2027", "ncp": "Forms only", "plant_health": "11/06/2026", "kliprivier": "02/03/2027", "meyerton": null, "germiston": null, "licence": "18/01/2027"}, {"name": "Elvis Inama", "trade": "Painter", "group": "Current", "note": "", "medical": "13/01/2027", "nitrates": "15/01/2027", "isap": "31/01/2027", "ncp": null, "plant_health": "01/06/2026", "kliprivier": null, "meyerton": null, "germiston": null, "licence": "21/10/2030"}, {"name": "Killer Luthuli", "trade": "Painter", "group": "Current", "note": "", "medical": "13/01/2027", "nitrates": "15/01/2027", "isap": "31/01/2027", "ncp": "Card on file", "plant_health": "01/06/2026", "kliprivier": null, "meyerton": null, "germiston": null, "licence": null}, {"name": "Njabulo Ndlovu", "trade": "Mechanical", "group": "Current", "note": "", "medical": "13/01/2027", "nitrates": "15/01/2027", "isap": "31/01/2027", "ncp": null, "plant_health": "01/06/2026", "kliprivier": null, "meyerton": null, "germiston": null, "licence": "19/01/2028"}, {"name": "Phindani Mthengeli", "trade": "Assistant", "group": "Current", "note": "NCP induction forms on file but no card scanned", "medical": "13/01/2027", "nitrates": "15/01/2027", "isap": "31/01/2027", "ncp": "Forms only", "plant_health": "01/06/2026", "kliprivier": "02/03/2027", "meyerton": null, "germiston": null, "licence": "10/02/2030"}, {"name": "Joas Nkwana", "trade": "Assistant", "group": "Current", "note": "", "medical": "13/01/2027", "nitrates": "15/01/2027", "isap": "31/01/2027", "ncp": "Card on file", "plant_health": "01/06/2026", "kliprivier": null, "meyerton": null, "germiston": null, "licence": null}, {"name": "Eric Rangayi", "trade": "Assistant", "group": "Current", "note": "", "medical": "13/01/2027", "nitrates": "15/01/2027", "isap": "31/01/2027", "ncp": "Card on file", "plant_health": "01/06/2026", "kliprivier": null, "meyerton": null, "germiston": null, "licence": null}, {"name": "Simphiwe (Ishmael) Voyiya", "trade": "Assistant", "group": "Current", "note": "", "medical": "13/01/2027", "nitrates": "15/01/2027", "isap": "31/01/2027", "ncp": "Card on file", "plant_health": "01/06/2026", "kliprivier": "03/12/2026", "meyerton": null, "germiston": null, "licence": "25/06/2028"}, {"name": "Ricardo Simoes", "trade": "", "group": "Current", "note": "Not on Sept 2026 org chart", "medical": "13/01/2027", "nitrates": "15/01/2027", "isap": "31/01/2027", "ncp": "Card on file", "plant_health": "11/06/2026", "kliprivier": null, "meyerton": null, "germiston": null, "licence": "23/05/2029"}, {"name": "Mvuzomuhle Khoza", "trade": "", "group": "Current", "note": "Not on Sept 2026 org chart", "medical": "13/01/2027", "nitrates": "15/01/2027", "isap": "31/01/2027", "ncp": "Card on file", "plant_health": null, "kliprivier": "02/03/2027", "meyerton": null, "germiston": null, "licence": null}, {"name": "Nicholas Dlamini", "trade": "", "group": "Current", "note": "Not on Sept 2026 org chart", "medical": "13/01/2027", "nitrates": "15/01/2027", "isap": "31/01/2027", "ncp": null, "plant_health": null, "kliprivier": null, "meyerton": null, "germiston": null, "licence": null}, {"name": "Vincent Msomi", "trade": "", "group": "Current", "note": "Not on Sept 2026 org chart", "medical": "13/01/2027", "nitrates": "15/01/2027", "isap": "31/01/2027", "ncp": null, "plant_health": null, "kliprivier": null, "meyerton": null, "germiston": null, "licence": null}, {"name": "Walter Sisulu", "trade": "", "group": "Current", "note": "Not on Sept 2026 org chart", "medical": "13/01/2027", "nitrates": "15/01/2027", "isap": "31/01/2027", "ncp": null, "plant_health": null, "kliprivier": null, "meyerton": null, "germiston": null, "licence": null}, {"name": "Ntshengedzeni Makhado", "trade": "Labourer", "group": "Current", "note": "Not on Sept 2026 org chart", "medical": "28/01/2027", "nitrates": "28/01/2027", "isap": "31/01/2027", "ncp": null, "plant_health": null, "kliprivier": null, "meyerton": null, "germiston": null, "licence": null}, {"name": "Aphiwe Dlamini", "trade": "Assistant painter", "group": "New starter 2026", "note": "Started Jul 2026", "medical": "14/07/2027", "nitrates": "28/07/2027", "isap": "31/01/2027", "ncp": null, "plant_health": null, "kliprivier": null, "meyerton": null, "germiston": null, "licence": null}, {"name": "Thato Moloinyana", "trade": "Painter", "group": "New starter 2026", "note": "Started Jul 2026. Two Nitrates files on record: Exp 15/01/2027 and Exp 26/01/2027 (earlier date shown)", "medical": "14/07/2027", "nitrates": "15/01/2027", "isap": "31/01/2027", "ncp": null, "plant_health": null, "kliprivier": null, "meyerton": null, "germiston": null, "licence": null}, {"name": "Shivutiso Chabalala", "trade": "Code 14 driver", "group": "New starter 2026", "note": "Started Sep 2026. No Nitrates induction on file", "medical": "08/09/2027", "nitrates": null, "isap": "31/01/2027", "ncp": null, "plant_health": null, "kliprivier": null, "meyerton": null, "germiston": null, "licence": null}, {"name": "Charles Ratau", "trade": "Foreman / welder", "group": "New starter 2026", "note": "Medical issued 05/10/2026, valid 12 months (file name says EXP 05.10.2026). No Nitrates induction on file", "medical": "05/10/2027", "nitrates": null, "isap": "31/01/2027", "ncp": null, "plant_health": null, "kliprivier": null, "meyerton": null, "germiston": null, "licence": null}, {"name": "Ketishi (Ralph) Moloto", "trade": "", "group": "New starter 2026", "note": "Medical filed as Ketishi Moloto, inductions as Ralph Moloto; treated as one person", "medical": "05/10/2027", "nitrates": "06/10/2027", "isap": "31/01/2027", "ncp": null, "plant_health": null, "kliprivier": null, "meyerton": null, "germiston": null, "licence": null}, {"name": "Daniel Malose", "trade": "", "group": "New starter 2026", "note": "Inductions filed as Malose Kwenaite", "medical": "05/10/2027", "nitrates": "06/10/2027", "isap": "31/01/2027", "ncp": null, "plant_health": null, "kliprivier": null, "meyerton": null, "germiston": null, "licence": null}, {"name": "Nelson Ndlovu", "trade": "Welder", "group": "Check status", "note": "On Sept 2026 org chart but no 2026 medical, Nitrates or ISAP records", "medical": null, "nitrates": "14/01/2025", "isap": null, "ncp": null, "plant_health": "01/06/2026", "kliprivier": null, "meyerton": null, "germiston": null, "licence": null}, {"name": "Tsakane Mdaka", "trade": "", "group": "Check status", "note": "2026 medical certificate on file but not on the 2026 COF list, staff list or org chart", "medical": null, "nitrates": null, "isap": null, "ncp": null, "plant_health": null, "kliprivier": null, "meyerton": null, "germiston": null, "licence": null}], "attention": [{"id": "ph", "level": "critical", "item": "Plant Health inductions have expired for everyone", "detail": "Every Plant Health card (issued 23/06/2025) expired on 01/06/2026, or 11/06/2026 for Walter Mahlaela and Ricardo Simoes. Nobody is currently inducted for Plant Health.", "source": "AECI - PLANT HEALTH NULANDIS / JUNE 2025 / Induction cards set 1-4"}, {"id": "jan", "level": "warning", "item": "Most medicals and inductions expire together in January 2027", "detail": "Medicals 13/01/2027, Nitrates 15/01/2027 and ISAP 31/01/2027 for about 26 people. Book renewals in early January.", "source": "2026 COF list, Nitrates Inductions 2026, IS Induction 2026"}, {"id": "klipdue", "level": "warning", "item": "Ingrain Kliprivier inductions expire early December", "detail": "Simphiwe Voyiya and Vuwani Makhado on 03/12/2026, Phineas Morwatsehla on 04/12/2026.", "source": "INDUCTIONS / OTHER INDUCTIONS"}, {"id": "dl", "level": "warning", "item": "Phillip Dlamini: driver's licence expires 03/11/2026", "detail": "Renew before driving on site.", "source": "Copy of Employee Drivers Licences - 2026"}, {"id": "acceptor", "level": "warning", "item": "Nitrates clearance acceptor appointments expired", "detail": "Ricardo Simoes on 16/10/2026 and Vuwani Makhado on 17/04/2026 (per the Q2 2026 training matrix).", "source": "LR Simoes Employee list 2026 Q2"}, {"id": "klip", "level": "warning", "item": "Two Kliprivier cards have the wrong expiry year", "detail": "Benson Sikuba and Sidima Ntunja: inducted 08/12/2025 but expiry also written as 08/12/2025. Shown as expired until corrected.", "source": "INDUCTIONS / OTHER INDUCTIONS"}, {"id": "ingrain", "level": "warning", "item": "No Ingrain Meyerton or Ingrain Germiston inductions on file", "detail": "Nothing found for either site. The KlipRivier - Exp 13 Jan 2027 folder is also empty.", "source": "Whole Health & Safety folder"}, {"id": "ncp", "level": "info", "item": "NCP cards show no expiry date", "detail": "8 NCP cards on file. Benson, Phindani, Walter Mahlaela and Vuwani have NCP induction forms but no card scanned.", "source": "OTHER INDUCTIONS / NCP INDUCTION CARDS - 2026; 4. SAFETY FILE - NCP CHLORCHEM / NCP INDUCTIONS"}, {"id": "org", "level": "info", "item": "Org chart (Sept 2026) is out of step with the safety records", "detail": "It leaves out Ricardo Simoes, Mvuzomuhle Khoza, Nicholas Dlamini, Vincent Msomi, Walter Sisulu, Ntshengedzeni Makhado and the new starters, and still lists Nelson Ndlovu, Adrian Kloppers, Saji Sasidharan, Elliot Mahlomotja and William Mokgehle, who have left.", "source": "PERSONNEL RECORDS / ORGANISATION CHART sept 2026.xlsx"}, {"id": "gate", "level": "info", "item": "Gate inductions for names not on any staff list", "detail": "DM Khumalo (exp 13/10/2027) and Titswalo Chabala (18/06/2026). Confirm who they are.", "source": "INDUCTIONS / AECI GATE INDUCTION"}, {"id": "ratau", "level": "info", "item": "Charles Ratau medical file name has the wrong year", "detail": "File is named EXP 05.10.2026, but the certificate was issued 05/10/2026 and is valid 12 months.", "source": "MEDICAL CLEARANCES / Medicals 2026"}], "scan": {"scanned": "21/10/2026", "folder": "OneDrive / 3. Health & Safety", "next_scan": "01/11/2026", "people": 35}};
+const $ = (id) => document.getElementById(id);
+const parse = (s) => { const m = typeof s === 'string' && s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/); return m ? new Date(+m[3], +m[2]-1, +m[1]) : null; };
+const status = (s) => { const d = parse(s); if (!d) return s ? 'info' : 'none'; const t = new Date(); t.setHours(0,0,0,0); const days = (d - t) / 864e5; return days < 0 ? 'exp' : days <= 60 ? 'due' : 'ok'; };
+const SITES = [['nitrates','Nitrates'],['isap','ISAP'],['ncp','NCP'],['plant_health','Plant Health'],['kliprivier','Ingrain Kliprivier'],['meyerton','Ingrain Meyerton'],['germiston','Ingrain Germiston']];
+const DATECOLS = ['medical','nitrates','isap','plant_health','kliprivier','meyerton','germiston','licence'];
+const COLS = ['name','trade','medical','nitrates','isap','ncp','plant_health','kliprivier','meyerton','germiston','licence','note'];
+const el = (t, cls, txt) => { const e = document.createElement(t); if (cls) e.className = cls; if (txt !== undefined) e.textContent = txt; return e; };
+const needs = (r) => DATECOLS.some((k) => ['exp','due'].includes(status(r[k]))) || r.ncp === 'Forms only' || r.group === 'Check status' || status(r.medical) === 'none';
+let filter = 'all';
+
+function render() {
+  const P = DATA.staff;
+  $('scanned').textContent = DATA.scan.scanned; $('next').textContent = DATA.scan.next_scan;
+  const med = P.map((r) => status(r.medical));
+  const medOk = med.filter((s) => s === 'ok' || s === 'due').length;
+  const medDue = med.filter((s) => s === 'due').length;
+  const medNo = P.length - medOk;
+  const indExp = P.reduce((a, r) => a + ['nitrates','isap','plant_health','kliprivier'].filter((k) => status(r[k]) === 'exp').length, 0);
+  $('take').textContent = `${medOk} of ${P.length} people have a valid medical. ${indExp} site inductions have expired.`;
+  const tiles = [['People',P.length,''],['Medicals valid',medOk,'good'],['Medicals due ≤ 60 days',medDue,'warn'],['No valid medical',medNo,'bad'],['Expired inductions',indExp,'bad']];
+  $('tiles').replaceChildren(...tiles.map(([k,v,c]) => { const d = el('div','tile '+c); d.append(el('div','k',k), el('div','v',String(v))); return d; }));
+  $('sites').replaceChildren(...SITES.map(([k,label]) => {
+    const s = P.map((r) => { const x = status(r[k]); return x === 'info' ? 'ok' : x; });
+    const tr = el('tr'); tr.append(el('td','',label));
+    [['ok','ok'],['due','due'],['exp','exp'],['none','']].forEach(([key,cls]) => { const n = s.filter((x) => x === key).length; const td = el('td','num'); if (n && cls) td.append(el('span','pill '+cls,String(n))); else td.textContent = String(n); tr.append(td); });
+    return tr;
+  }));
+  $('alerts').replaceChildren(...DATA.attention.map((a) => { const li = el('li'); li.append(el('span','sev '+a.level,{critical:'Urgent',warning:'Soon',info:'Check'}[a.level]||'Note'), el('span','it',a.item), el('span','dt',a.detail), el('span','src','From: '+a.source)); return li; }));
+  const term = $('q').value.trim().toLowerCase();
+  const rows = P.filter((r) => (!term || (r.name+' '+r.trade).toLowerCase().includes(term)) && (filter==='all' || (filter==='attn' && needs(r)) || (filter==='new' && r.group==='New starter 2026')));
+  $('people').replaceChildren(...rows.map((r) => { const tr = el('tr'); COLS.forEach((c) => { const v = r[c]; const td = el('td'); if (v == null || v === '') td.className = 'empty';
+      else if (DATECOLS.includes(c)) { const s = status(v); if (s === 'info') td.textContent = v; else td.append(el('span','pill '+s, v)); }
+      else if (c === 'ncp') td.append(el('span','pill '+(v==='Forms only'?'due':'ok'), v));
+      else td.textContent = v;
+      if (c==='name') td.classList.add('name'); if (c==='trade') td.classList.add('muted'); if (c==='note') td.classList.add('notec');
+      tr.append(td); }); return tr; }));
+}
+document.querySelectorAll('.chip[data-f]').forEach((b) => b.addEventListener('click', () => { filter = b.dataset.f; document.querySelectorAll('.chip[data-f]').forEach((x) => x.setAttribute('aria-pressed', String(x===b))); render(); }));
+$('q').addEventListener('input', render);
+// TV mode: ?tv or #tv in the address, or the button
+let timer = null, pause = 0;
+const box = document.scrollingElement || document.documentElement;
+const setTV = (on) => { document.body.classList.toggle('tv', on); $('tvbtn').setAttribute('aria-pressed', String(on)); clearInterval(timer); timer = null; box.scrollTop = 0;
+  if (on) { pause = 80; timer = setInterval(() => { if (pause > 0) { pause--; return; } if (box.scrollTop + window.innerHeight >= box.scrollHeight - 2) { box.scrollTop = 0; pause = 80; return; } box.scrollTop += 1; }, 60); } };
+$('tvbtn').addEventListener('click', () => setTV(!document.body.classList.contains('tv')));
+const tick = () => { $('clock').textContent = new Date().toLocaleString('en-ZA',{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}); };
+tick(); setInterval(tick, 20000);
+render();
+if (/(^|[?&#])tv\b/.test(location.search + location.hash)) setTV(true);
+// Re-check statuses at midnight and reload every 6 hours to pick up the monthly update
+setInterval(render, 3600e3);
+setTimeout(() => location.reload(), 6 * 3600e3);
+</script>
+</body>
+</html>
