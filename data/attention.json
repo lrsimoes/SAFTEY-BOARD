@@ -21,6 +21,13 @@
   "source": "INDUCTIONS / OTHER INDUCTIONS"
  },
  {
+  "id": "wahthato",
+  "level": "warning",
+  "item": "Thato Moloinyana: working at heights expires 08/11/2026",
+  "detail": "Basic Fall Arrest Operator licence. Book a refresher.",
+  "source": "FALL ARREST / CERTIFICATES - BASIC FALL ARREST OPERATOR"
+ },
+ {
   "id": "dl",
   "level": "warning",
   "item": "Phillip Dlamini: driver's licence expires 03/11/2026",
@@ -29,10 +36,10 @@
  },
  {
   "id": "acceptor",
-  "level": "warning",
-  "item": "Nitrates clearance acceptor appointments expired",
-  "detail": "Ricardo Simoes on 16/10/2026 and Vuwani Makhado on 17/04/2026 (per the Q2 2026 training matrix).",
-  "source": "LR Simoes Employee list 2026 Q2"
+  "level": "critical",
+  "item": "Clearance acceptor and lockout expired: Ricardo Simoes and Vuwani Makhado",
+  "detail": "Ricardo: acceptor 16/10/2026, lockout 18/10/2026. Vuwani: acceptor 17/04/2026, lockout 19/04/2026. Book refreshers if they still need to accept clearances.",
+  "source": "Clearance Acceptors; 1. Safety File 2026 - AECI / L - 12"
  },
  {
   "id": "klip",
@@ -75,5 +82,12 @@
   "item": "Charles Ratau medical file name has the wrong year",
   "detail": "File is named EXP 05.10.2026, but the certificate was issued 05/10/2026 and is valid 12 months.",
   "source": "MEDICAL CLEARANCES / Medicals 2026"
+ },
+ {
+  "id": "wahnone",
+  "level": "info",
+  "item": "No working at heights certificate on file for some staff",
+  "detail": "Lionel Simoes, Paula Coito van Heerden, Ntshengedzeni Makhado, Aphiwe Dlamini, Shivutiso Chabalala, Charles Ratau, Ralph Moloto and Daniel Malose. Only needed if they work at height.",
+  "source": "FALL ARREST"
  }
 ]

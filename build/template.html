@@ -41,6 +41,7 @@ td.empty::after{content:"—";color:var(--muted);opacity:.5}
 .pill{display:inline-block;padding:1px 7px;border-radius:999px;font-weight:600}
 .ok{color:var(--ok)}.due .pill,.pill.due{background:var(--warnbg);color:var(--warn)}.pill.exp{background:var(--badbg);color:var(--bad)}.pill.ok{background:var(--okbg);color:var(--ok)}
 .num{text-align:right}
+.site{font-size:.75rem;color:var(--muted);margin-left:4px}
 .alerts{list-style:none;margin:0;padding:0;display:grid}
 .alerts li{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;padding:9px 0;border-bottom:1px solid var(--line)}
 .alerts li:last-child{border-bottom:0}
@@ -73,7 +74,7 @@ body.tv{scrollbar-width:none}
 <section class="tiles" id="tiles"></section>
 <div class="grid2">
   <section class="card"><h2>Needs attention</h2><ul class="alerts" id="alerts"></ul></section>
-  <section class="card"><h2>By site</h2><p class="note">Counted from today. “Due” = expiring within 60 days.</p>
+  <section class="card"><h2>By certificate and site</h2><p class="note">Counted from today. “Due” = expiring within 60 days.</p>
     <div class="scroll"><table><thead><tr><th>Site</th><th class="num">Valid</th><th class="num">Due</th><th class="num">Expired</th><th class="num">None on file</th></tr></thead><tbody id="sites"></tbody></table></div></section>
 </div>
 <section class="card people"><h2>Everyone</h2>
@@ -85,7 +86,7 @@ body.tv{scrollbar-width:none}
     <button class="chip" id="tvbtn" aria-pressed="false">TV mode</button>
   </div>
   <div class="legend"><span class="pill ok">Valid</span><span class="pill due">Due ≤ 60 days</span><span class="pill exp">Expired</span><span class="note">— nothing on file</span></div>
-  <div class="scroll" id="pscroll"><table><thead><tr><th>Name</th><th>Trade</th><th>Medical</th><th>Nitrates</th><th>ISAP</th><th>NCP</th><th>Plant Health</th><th>Ingrain Kliprivier</th><th>Ingrain Meyerton</th><th>Ingrain Germiston</th><th>Driver's licence</th><th class="notec">Notes</th></tr></thead><tbody id="people"></tbody></table></div>
+  <div class="scroll" id="pscroll"><table><thead><tr><th>Name</th><th>Trade</th><th>Medical</th><th>Working at heights</th><th>Clearance acceptor</th><th>Lockout</th><th>Nitrates</th><th>ISAP</th><th>NCP</th><th>Plant Health</th><th>Ingrain Kliprivier</th><th>Ingrain Meyerton</th><th>Ingrain Germiston</th><th>Driver's licence</th><th class="notec">Notes</th></tr></thead><tbody id="people"></tbody></table></div>
 </section>
 <footer>Dates as written on the certificates and induction cards. ID numbers and medical details are deliberately left off. Updated automatically on the 1st of each month.</footer>
 </div>
@@ -94,9 +95,9 @@ const DATA = __DATA__;
 const $ = (id) => document.getElementById(id);
 const parse = (s) => { const m = typeof s === 'string' && s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/); return m ? new Date(+m[3], +m[2]-1, +m[1]) : null; };
 const status = (s) => { const d = parse(s); if (!d) return s ? 'info' : 'none'; const t = new Date(); t.setHours(0,0,0,0); const days = (d - t) / 864e5; return days < 0 ? 'exp' : days <= 60 ? 'due' : 'ok'; };
-const SITES = [['nitrates','Nitrates'],['isap','ISAP'],['ncp','NCP'],['plant_health','Plant Health'],['kliprivier','Ingrain Kliprivier'],['meyerton','Ingrain Meyerton'],['germiston','Ingrain Germiston']];
-const DATECOLS = ['medical','nitrates','isap','plant_health','kliprivier','meyerton','germiston','licence'];
-const COLS = ['name','trade','medical','nitrates','isap','ncp','plant_health','kliprivier','meyerton','germiston','licence','note'];
+const SITES = [['heights','Working at heights'],['acceptor','Clearance acceptor'],['lockout','Lockout'],['nitrates','Nitrates'],['isap','ISAP'],['ncp','NCP'],['plant_health','Plant Health'],['kliprivier','Ingrain Kliprivier'],['meyerton','Ingrain Meyerton'],['germiston','Ingrain Germiston']];
+const DATECOLS = ['medical','heights','acceptor','lockout','nitrates','isap','plant_health','kliprivier','meyerton','germiston','licence'];
+const COLS = ['name','trade','medical','heights','acceptor','lockout','nitrates','isap','ncp','plant_health','kliprivier','meyerton','germiston','licence','note'];
 const el = (t, cls, txt) => { const e = document.createElement(t); if (cls) e.className = cls; if (txt !== undefined) e.textContent = txt; return e; };
 const needs = (r) => DATECOLS.some((k) => ['exp','due'].includes(status(r[k]))) || r.ncp === 'Forms only' || r.group === 'Check status' || status(r.medical) === 'none';
 let filter = 'all';
@@ -108,9 +109,9 @@ function render() {
   const medOk = med.filter((s) => s === 'ok' || s === 'due').length;
   const medDue = med.filter((s) => s === 'due').length;
   const medNo = P.length - medOk;
-  const indExp = P.reduce((a, r) => a + ['nitrates','isap','plant_health','kliprivier'].filter((k) => status(r[k]) === 'exp').length, 0);
-  $('take').textContent = `${medOk} of ${P.length} people have a valid medical. ${indExp} site inductions have expired.`;
-  const tiles = [['People',P.length,''],['Medicals valid',medOk,'good'],['Medicals due ≤ 60 days',medDue,'warn'],['No valid medical',medNo,'bad'],['Expired inductions',indExp,'bad']];
+  const indExp = P.reduce((a, r) => a + ['heights','acceptor','lockout','nitrates','isap','plant_health','kliprivier'].filter((k) => status(r[k]) === 'exp').length, 0);
+  $('take').textContent = `${medOk} of ${P.length} people have a valid medical. ${indExp} certificates or inductions have expired.`;
+  const tiles = [['People',P.length,''],['Medicals valid',medOk,'good'],['Medicals due ≤ 60 days',medDue,'warn'],['No valid medical',medNo,'bad'],['Expired certs & inductions',indExp,'bad']];
   $('tiles').replaceChildren(...tiles.map(([k,v,c]) => { const d = el('div','tile '+c); d.append(el('div','k',k), el('div','v',String(v))); return d; }));
   $('sites').replaceChildren(...SITES.map(([k,label]) => {
     const s = P.map((r) => { const x = status(r[k]); return x === 'info' ? 'ok' : x; });
@@ -122,7 +123,7 @@ function render() {
   const term = $('q').value.trim().toLowerCase();
   const rows = P.filter((r) => (!term || (r.name+' '+r.trade).toLowerCase().includes(term)) && (filter==='all' || (filter==='attn' && needs(r)) || (filter==='new' && r.group==='New starter 2026')));
   $('people').replaceChildren(...rows.map((r) => { const tr = el('tr'); COLS.forEach((c) => { const v = r[c]; const td = el('td'); if (v == null || v === '') td.className = 'empty';
-      else if (DATECOLS.includes(c)) { const s = status(v); if (s === 'info') td.textContent = v; else td.append(el('span','pill '+s, v)); }
+      else if (DATECOLS.includes(c)) { const s = status(v); if (s === 'info') td.textContent = v; else td.append(el('span','pill '+s, v)); if (c === 'acceptor' && r.acceptor_site) td.append(el('span','site',' '+r.acceptor_site)); }
       else if (c === 'ncp') td.append(el('span','pill '+(v==='Forms only'?'due':'ok'), v));
       else td.textContent = v;
       if (c==='name') td.classList.add('name'); if (c==='trade') td.classList.add('muted'); if (c==='note') td.classList.add('notec');
