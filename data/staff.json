@@ -15,21 +15,6 @@
   "licence": "08/03/2027"
  },
  {
-  "name": "Juanita Simoes",
-  "trade": "Management",
-  "group": "Check status",
-  "note": "On Sept 2026 org chart; no medical or inductions on file (office-based?)",
-  "medical": null,
-  "nitrates": null,
-  "isap": null,
-  "ncp": null,
-  "plant_health": null,
-  "kliprivier": null,
-  "meyerton": null,
-  "germiston": null,
-  "licence": null
- },
- {
   "name": "Paula Coito van Heerden",
   "trade": "Office / SHE",
   "group": "Current",
@@ -43,21 +28,6 @@
   "meyerton": null,
   "germiston": null,
   "licence": "06/12/2030"
- },
- {
-  "name": "Hein Eichstadt",
-  "trade": "",
-  "group": "Current",
-  "note": "",
-  "medical": "13/01/2027",
-  "nitrates": "15/01/2027",
-  "isap": "31/01/2027",
-  "ncp": null,
-  "plant_health": "01/06/2026",
-  "kliprivier": null,
-  "meyerton": null,
-  "germiston": null,
-  "licence": "12/05/2028"
  },
  {
   "name": "Samora Nubetey",
@@ -360,21 +330,6 @@
   "licence": null
  },
  {
-  "name": "Vincent Msomi",
-  "trade": "",
-  "group": "Current",
-  "note": "Not on Sept 2026 org chart",
-  "medical": "13/01/2027",
-  "nitrates": "15/01/2027",
-  "isap": "31/01/2027",
-  "ncp": null,
-  "plant_health": null,
-  "kliprivier": null,
-  "meyerton": null,
-  "germiston": null,
-  "licence": null
- },
- {
   "name": "Walter Sisulu",
   "trade": "",
   "group": "Current",
@@ -487,36 +442,6 @@
   "medical": "05/10/2027",
   "nitrates": "06/10/2027",
   "isap": "31/01/2027",
-  "ncp": null,
-  "plant_health": null,
-  "kliprivier": null,
-  "meyerton": null,
-  "germiston": null,
-  "licence": null
- },
- {
-  "name": "Nelson Ndlovu",
-  "trade": "Welder",
-  "group": "Check status",
-  "note": "On Sept 2026 org chart but no 2026 medical, Nitrates or ISAP records",
-  "medical": null,
-  "nitrates": "14/01/2025",
-  "isap": null,
-  "ncp": null,
-  "plant_health": "01/06/2026",
-  "kliprivier": null,
-  "meyerton": null,
-  "germiston": null,
-  "licence": null
- },
- {
-  "name": "Tsakane Mdaka",
-  "trade": "",
-  "group": "Check status",
-  "note": "2026 medical certificate on file but not on the 2026 COF list, staff list or org chart",
-  "medical": null,
-  "nitrates": null,
-  "isap": null,
   "ncp": null,
   "plant_health": null,
   "kliprivier": null,
